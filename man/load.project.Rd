@@ -1,23 +1,20 @@
 \name{load.project}
 \alias{load.project}
-\title{
-Automatically load all of the data and libraries used by the current project.
-}
-\description{
-Automatically load all of the data and libraries used by the current project.
-}
+\title{Automatically load data and packages for a project.}
 \usage{
-load.project()
+  load.project()
 }
 \value{
-	No value is returned; this function is called for its side effects.
+  No value is returned; this function is called for its
+  side effects.
+}
+\description{
+  This function automatically load all of the data and
+  packages used by the project from which it is called.
 }
 \examples{
-\dontrun{
 library('ProjectTemplate')
 
-create.project('project_name')
+\dontrun{load.project()}
+}
 
-setwd('project_name')
-
-load.project()}}
