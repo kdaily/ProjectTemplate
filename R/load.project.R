@@ -90,7 +90,7 @@ load.project <- function()
     warning('Your configuration file is missing an entry: data_loading')
   }
 
-  if (config[['data_loading']] != 'on' && config[['cache_loading']] == 'on')
+  if (config[['cache_loading']] == 'on')
   {
     message('Autoloading cache')
     
@@ -141,47 +141,47 @@ load.project <- function()
   {
     message('Autoloading data')
     
-    # First, we load everything out of cache/.
-    if (!file.exists('cache'))
-    {
-      stop('You are missing a directory: cache')
-    }
-    cache.files <- dir('cache')
-    project.info[['cache']] <- c()
+    ## # First, we load everything out of cache/.
+    ## if (!file.exists('cache'))
+    ## {
+    ##   stop('You are missing a directory: cache')
+    ## }
+    ## cache.files <- dir('cache')
+    ## project.info[['cache']] <- c()
     
-    for (cache.file in cache.files)
-    {
-      filename <- file.path('cache', cache.file)
+    ## for (cache.file in cache.files)
+    ## {
+    ##   filename <- file.path('cache', cache.file)
       
-      for (extension in names(ProjectTemplate:::extensions.dispatch.table))
-      {
-        if (grepl(extension, cache.file, ignore.case = TRUE, perl = TRUE))
-        {
-          variable.name <- ProjectTemplate:::clean.variable.name(sub(extension,
-                                                   '',
-                                                   cache.file,
-                                                   ignore.case = TRUE,
-                                                   perl = TRUE))
+    ##   for (extension in names(ProjectTemplate:::extensions.dispatch.table))
+    ##   {
+    ##     if (grepl(extension, cache.file, ignore.case = TRUE, perl = TRUE))
+    ##     {
+    ##       variable.name <- ProjectTemplate:::clean.variable.name(sub(extension,
+    ##                                                '',
+    ##                                                cache.file,
+    ##                                                ignore.case = TRUE,
+    ##                                                perl = TRUE))
 
-          # If this variable already exists in the global environment, don't load it from cache.
-          if (variable.name %in% ls(envir = .GlobalEnv))
-          {
-            next()
-          }
+    ##       # If this variable already exists in the global environment, don't load it from cache.
+    ##       if (variable.name %in% ls(envir = .GlobalEnv))
+    ##       {
+    ##         next()
+    ##       }
           
-          message(paste(" Loading cached data set: ", variable.name, sep = ''))
+    ##       message(paste(" Loading cached data set: ", variable.name, sep = ''))
 
-          do.call(ProjectTemplate:::extensions.dispatch.table[[extension]],
-                  list(cache.file,
-                       filename,
-                       variable.name))
+    ##       do.call(ProjectTemplate:::extensions.dispatch.table[[extension]],
+    ##               list(cache.file,
+    ##                    filename,
+    ##                    variable.name))
           
-          project.info[['cache']] <- c(project.info[['cache']], variable.name)
+    ##       project.info[['cache']] <- c(project.info[['cache']], variable.name)
           
-          break()
-        }
-      }
-    }
+    ##       break()
+    ##     }
+    ##   }
+    ## }
 
     # Then we consider loading things from data/.
     if (!file.exists('data'))
